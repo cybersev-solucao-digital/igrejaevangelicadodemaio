@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atividades da Igreja</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --gold:#d4af37;
+  --dark:#100707;
+  --wine:#4b0f1b;
+  --ivory:#f8f5ef;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;overflow-x:hidden}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--dark);
+  color:var(--ivory);
+  padding:32px 4%;
+}
+header{text-align:center;margin-bottom:40px}
+header h1{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  font-size:clamp(26px,4vw,38px);
+}
+.admin-btn{
+  position:fixed;
+  bottom:16px;
+  right:16px;
+  background:var(--gold);
+  color:var(--dark);
+  padding:12px 16px;
+  font-weight:600;
+  cursor:pointer;
+  z-index:1000;
+  border-radius:6px;
+  font-size:14px;
+}
+.alert{
+  max-width:820px;
+  margin:0 auto 20px;
+  padding:12px 16px;
+  border-radius:4px;
+  font-size:14px;
+  display:none;
+}
+.alert.success{background:#1f6f3f}
+.alert.error{background:#7a1c1c}
+.alert.info{background:#333}
+.login-box{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+}
+.login-box > div{
+  background:var(--dark);
+  padding:28px;
+  border:1px solid var(--gold);
+  max-width:380px;
+  width:100%;
+  text-align:center;
+}
+.login-box h2{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+.login-box input{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  background:transparent;
+  border:none;
+  border-bottom:2px solid var(--gold);
+  color:var(--ivory);
+}
+.login-box button{
+  width:100%;
+  background:var(--gold);
+  border:none;
+  padding:12px;
+  cursor:pointer;
+  font-weight:600;
+}
+.form-container{
+  display:none;
+  max-width:820px;
+  margin:0 auto 30px;
+  padding:26px;
+  border:1px solid rgba(212,175,55,.4);
+}
+.form-container h3{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  margin-bottom:18px;
+  text-align:center;
+}
+form{display:grid;gap:16px}
+input,textarea{
+  width:100%;
+  padding:12px;
+  background:transparent;
+  border:none;
+  border-bottom:2px solid var(--gold);
+  color:var(--ivory);
+}
+textarea{min-height:110px}
+form button{
+  background:var(--gold);
+  color:var(--dark);
+  padding:14px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+.atividades-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:26px;
+  max-width:1200px;
+  margin:0 auto;
+}
+.atividade{
+  border:1px solid rgba(212,175,55,.4);
+  border-radius:6px;
+  overflow:hidden;
+  background:rgba(255,255,255,0.02);
+  position:relative;
+}
+.atividade img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+.atividade-content{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.atividade-content h3{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  font-size:18px;
+}
+.departamento{
+  font-size:13px;
+  color:#f0d87a;
+  font-weight:600;
+}
+.atividade-content p{
+  font-size:14px;
+  line-height:1.6;
+}
+.atividade-content span{
+  font-size:12px;
+  opacity:.7;
+  margin-top:auto;
+}
+.delete-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:var(--wine);
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  cursor:pointer;
+  display:none;
+  font-size:12px;
+  border-radius:4px;
+}
+.admin .delete-btn{display:block}
+footer{
+  margin:60px 0 20px;
+  text-align:center;
+  font-size:13px;
+  opacity:.6;
+}
+</style>
+</head>
+
+<body>
+
+<header><h1>Atividades da Igreja</h1></header>
+<div class="alert info" id="alertBox"></div>
+<div class="admin-btn" onclick="abrirLogin()">Publicar / Atualizar</div>
+
+<div class="login-box" id="loginBox">
+  <div>
+    <h2>Acesso Administrativo</h2>
+    <input type="password" id="senha" placeholder="Digite a senha">
+    <button onclick="verificarSenha()">Entrar</button>
+  </div>
+</div>
+
+<div class="form-container" id="formContainer">
+  <h3>Nova Atividade</h3>
+  <form id="formAtividade">
+    <input id="titulo" required placeholder="Título">
+    <input id="departamento" required placeholder="Departamento">
+    <textarea id="descricao" required placeholder="Descrição"></textarea>
+    <input type="date" id="dataAtividade" required>
+    <input type="file" id="imagem" accept="image/*" required>
+    <button>Publicar</button>
+  </form>
+</div>
+
+<div class="atividades-grid" id="atividadesGrid"></div>
+<footer>© União das Igrejas Evangélicas</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+const SENHA="123";
+let admin=false;
+
+const alertBox=document.getElementById("alertBox");
+const grid=document.getElementById("atividadesGrid");
+const form=document.getElementById("formAtividade");
+
+function alerta(msg,tipo="info"){
+  alertBox.textContent=msg;
+  alertBox.className=`alert ${tipo}`;
+  alertBox.style.display="block";
+  setTimeout(()=>alertBox.style.display="none",5000);
+}
+
+const supabase = window.supabase.createClient(
+  "https://qbuttdvrrwcbudqfeesb.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFidXR0ZHZycndjYnVkcWZlZXNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYzMzk0MjUsImV4cCI6MjA4MTkxNTQyNX0.bihML3Do8M8tMw0G7L_533EMppWX-DrJ1h8b7FqUcPg"
+);
+
+window.abrirLogin=()=>loginBox.style.display="flex";
+
+window.verificarSenha=()=>{
+  if(senha.value===SENHA){
+    admin=true;
+    document.body.classList.add("admin");
+    loginBox.style.display="none";
+    formContainer.style.display="block";
+    alerta("Modo administrador ativado","success");
+  }else alerta("Senha incorreta","error");
+};
+
+async function carregarAtividades(){
+  alerta("A carregar atividades...","info");
+
+  const { data, error } = await supabase
+    .from("atividades")
+    .select("*")
+    .order("data",{ascending:false});
+
+  if(error){
+    console.error(error);
+    alerta("Erro ao carregar atividades","error");
+    return;
+  }
+
+  grid.innerHTML="";
+
+  if(!data || data.length===0){
+    alerta("Nenhuma atividade encontrada","info");
+    return;
+  }
+
+  data.forEach(a=>{
+    grid.innerHTML+=`
+    <div class="atividade">
+      <button class="delete-btn" onclick="eliminar(${a.id},'${a.imagem_url}')">Eliminar</button>
+      <img src="${a.imagem_url}">
+      <div class="atividade-content">
+        <h3>${a.titulo}</h3>
+        <div class="departamento">${a.departamento}</div>
+        <p>${a.descricao}</p>
+        <span>${new Date(a.data).toLocaleDateString()}</span>
+      </div>
+    </div>`;
+  });
+
+  alerta("Atividades carregadas","success");
+}
+
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  alerta("A publicar atividade...","info");
+
+  const file=imagem.files[0];
+  if(!file){
+    alerta("Selecione uma imagem","error");
+    return;
+  }
+
+  const fileName=Date.now()+"_"+file.name;
+
+  const upload = await supabase.storage
+    .from("imagens")
+    .upload(fileName,file);
+
+  if(upload.error){
+    console.error(upload.error);
+    alerta("Erro no upload da imagem","error");
+    return;
+  }
+
+  const publicUrl = supabase.storage
+    .from("imagens")
+    .getPublicUrl(fileName).data.publicUrl;
+
+  const insert = await supabase.from("atividades").insert({
+    titulo:titulo.value,
+    departamento:departamento.value,
+    descricao:descricao.value,
+    data:dataAtividade.value,
+    imagem_url:publicUrl
+  });
+
+  if(insert.error){
+    console.error(insert.error);
+    alerta("Erro ao salvar atividade (RLS?)","error");
+    return;
+  }
+
+  alerta("Atividade publicada com sucesso","success");
+  form.reset();
+  carregarAtividades();
+});
+
+window.eliminar=async(id,url)=>{
+  if(!admin||!confirm("Eliminar atividade?"))return;
+
+  await supabase.storage.from("imagens")
+    .remove([url.split("/").pop()]);
+
+  await supabase.from("atividades")
+    .delete().eq("id",id);
+
+  alerta("Atividade eliminada","success");
+  carregarAtividades();
+};
+
+carregarAtividades();
+});
+</script>

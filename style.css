@@ -1,0 +1,415 @@
+:root{
+  --gold:#d4af37;
+  --wine:#4b0f1b;
+  --ivory:#f8f5ef;
+  --dark:#120707;
+}
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--dark);
+  color:var(--ivory);
+  overflow-x:hidden;
+}
+
+/* ================= HEADER ================= */
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  padding:14px 8%;
+  background:rgba(18,7,7,.92);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:1000;
+}
+
+.logo{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  line-height:1.1;
+}
+
+.logo i{
+  font-size:26px;
+}
+
+.logo small{
+  font-size:12px;
+  opacity:.8;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+}
+
+nav a{
+  color:var(--ivory);
+  margin-left:28px;
+  text-decoration:none;
+  font-weight:500;
+  position:relative;
+}
+
+nav a::after{
+  content:'';
+  position:absolute;
+  bottom:-6px;
+  left:0;
+  width:0;
+  height:2px;
+  background:var(--gold);
+  transition:.3s;
+}
+
+nav a:hover::after{
+  width:100%;
+}
+
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  color:var(--gold);
+  cursor:pointer;
+}
+
+/* ================= HERO ================= */
+.hero{
+  min-height:100vh;
+  padding-top:90px; /* espaço real do header */
+  background:
+    linear-gradient(rgba(18,7,7,.88),rgba(18,7,7,.88)),
+    url('https://images.unsplash.com/photo-1501612780327-45045538702b')
+    center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding-left:12%;
+  padding-right:12%;
+}
+
+.hero-content{
+  max-width:900px;
+}
+
+.hero h1{
+  font-family:'Cinzel',serif;
+  font-size:56px;
+  color:var(--gold);
+  line-height:1.25;
+}
+
+.hero p{
+  margin:28px auto 40px;
+  line-height:1.9;
+  font-size:17px;
+  opacity:.9;
+}
+
+.hero a{
+  display:inline-block;
+  padding:16px 44px;
+  border:2px solid var(--gold);
+  color:var(--gold);
+  text-decoration:none;
+  letter-spacing:2px;
+  transition:.35s;
+}
+
+.hero a:hover{
+  background:var(--gold);
+  color:var(--dark);
+}
+/* ================= PROGRAMAÇÃO SEMANAL ================= */
+
+.programacao-semanal{
+  background:linear-gradient(
+    rgba(18,7,7,.92),
+    rgba(18,7,7,.92)
+  ),
+  url('https://images.unsplash.com/photo-1515169067865-5387ec356754')
+  center/cover no-repeat;
+}
+
+.agenda-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:35px;
+}
+
+.agenda-card{
+  border:1px solid var(--gold);
+  padding:35px 28px;
+  background:rgba(0,0,0,.35);
+  transition:.4s;
+}
+
+.agenda-card:hover{
+  transform:translateY(-6px);
+  background:rgba(212,175,55,.08);
+}
+
+.agenda-card h3{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  font-size:20px;
+  margin-bottom:18px;
+}
+
+.agenda-card small{
+  display:block;
+  margin-bottom:12px;
+  opacity:.8;
+  font-size:13px;
+}
+
+.agenda-card ul{
+  list-style:none;
+}
+
+.agenda-card ul li{
+  padding:10px 0;
+  border-bottom:1px solid rgba(212,175,55,.25);
+  font-size:15px;
+}
+
+.agenda-card ul li:last-child{
+  border-bottom:none;
+}
+
+/* DESTAQUES */
+.agenda-card.destaque{
+  box-shadow:0 0 25px rgba(212,175,55,.25);
+}
+
+.agenda-card.culto-geral{
+  background:linear-gradient(
+    135deg,
+    rgba(75,15,27,.9),
+    rgba(42,6,12,.9)
+  );
+}
+
+/* RESPONSIVO */
+@media(max-width:600px){
+  .agenda-card{
+    padding:30px 22px;
+  }
+
+  .agenda-card h3{
+    font-size:18px;
+  }
+}
+/* ================= SECTIONS ================= */
+section{
+  padding:110px 10%;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.section-title h2{
+  font-family:'Cinzel',serif;
+  font-size:40px;
+  color:var(--gold);
+  margin-top:10px;
+}
+
+.section-title span{
+  font-size:13px;
+  letter-spacing:3px;
+  opacity:.7;
+}
+
+/* ================= ABOUT ================= */
+.about{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  align-items:center;
+}
+
+.about img{
+  width:100%;
+  border-radius:8px;
+  box-shadow:0 0 30px #000;
+}
+
+.about p{
+  line-height:2;
+  font-size:16px;
+}
+
+/* ================= MINISTRIES ================= */
+.ministries{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:35px;
+}
+
+.ministry{
+  border:1px solid var(--gold);
+  padding:40px 25px;
+  text-align:center;
+  transition:.35s;
+}
+
+.ministry:hover{
+  background:rgba(212,175,55,.08);
+}
+
+.ministry i{
+  font-size:40px;
+  color:var(--gold);
+  margin-bottom:20px;
+}
+
+.ministry h3{
+  font-family:'Cinzel',serif;
+  font-size:20px;
+}
+
+/* ================= CTA ================= */
+.cta{
+  background:linear-gradient(135deg,var(--wine),#2a060c);
+  text-align:center;
+  padding:90px 12%;
+}
+
+.cta h2{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  margin-bottom:30px;
+  font-size:38px;
+}
+
+.cta a{
+  display:inline-block;
+  background:var(--gold);
+  color:var(--dark);
+  padding:16px 42px;
+  text-decoration:none;
+  letter-spacing:2px;
+  transition:.3s;
+}
+
+.cta a:hover{
+  transform:scale(1.05);
+}
+
+/* ================= WHATSAPP ================= */
+.whatsapp{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  background:#25D366;
+  color:#fff;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  z-index:999;
+  box-shadow:0 0 15px #000;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:30px;
+  background:#000;
+  opacity:.65;
+  font-size:14px;
+}
+
+/* ================= RESPONSIVO ================= */
+@media(max-width:900px){
+
+  header{
+    padding:14px 6%;
+  }
+
+  nav{
+    position:absolute;
+    top:100%;
+    right:0;
+    background:#120707;
+    width:100%;
+    display:none;
+    flex-direction:column;
+    text-align:center;
+    padding:20px 0;
+  }
+
+  nav a{
+    margin:14px 0;
+    font-size:16px;
+  }
+
+  nav.active{
+    display:flex;
+  }
+
+  .menu-toggle{
+    display:block;
+  }
+
+  .hero{
+    padding-left:8%;
+    padding-right:8%;
+  }
+
+  .hero h1{
+    font-size:40px;
+  }
+
+  section{
+    padding:90px 8%;
+  }
+
+  .about{
+    grid-template-columns:1fr;
+    gap:35px;
+  }
+
+  .cta h2{
+    font-size:32px;
+  }
+}
+
+@media(max-width:500px){
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  .cta h2{
+    font-size:28px;
+  }
+}
