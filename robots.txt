@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cybersev-solucao-digital.github.io/igrejaevangelicadodemaio/sitemap.xml
