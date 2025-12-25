@@ -41,3 +41,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
 });
+/* === Atualização automática inteligente === */
+
+let paginaVisivel = true;
+
+window.addEventListener("focus", () => {
+  location.reload();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    paginaVisivel = false;
+  }
+
+  if (document.visibilityState === "visible" && !paginaVisivel) {
+    paginaVisivel = true;
+    location.reload();
+  }
+});

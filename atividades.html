@@ -354,6 +354,32 @@ window.eliminar=async(id,url)=>{
 
 carregarAtividades();
 });
+
+
+let paginaVisivel = true;
+
+// Atualiza quando a página é carregada
+window.addEventListener("load", () => {
+  if (typeof carregarAtividades === "function") {
+    carregarAtividades();
+  }
+});
+
+// Detecta quando o site vai para segundo plano ou volta
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    paginaVisivel = false;
+  }
+
+  if (document.visibilityState === "visible" && !paginaVisivel) {
+    paginaVisivel = true;
+
+    // Atualiza somente quando o usuário voltar ao site
+    if (typeof carregarAtividades === "function") {
+      carregarAtividades();
+    }
+  }
+});
 </script>
 </body>
 </html>
