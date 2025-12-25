@@ -139,8 +139,10 @@ form button{
 }
 .atividade img{
   width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  background:#000;
 }
 .atividade-content{
   padding:16px;
@@ -217,7 +219,7 @@ footer{
 </div>
 
 <div class="atividades-grid" id="atividadesGrid"></div>
-<footer>© União das Igrejas Evangélicas</footer>
+<footer>© União de Igrejas Evangélicas em Angola</footer>
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
@@ -353,3 +355,5 @@ window.eliminar=async(id,url)=>{
 carregarAtividades();
 });
 </script>
+</body>
+</html>
